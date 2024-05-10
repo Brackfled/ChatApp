@@ -11,18 +11,18 @@ namespace Application.Features.Auth.Commands.Register;
 
 public class RegisterCommand : IRequest<RegisteredResponse>
 {
-    public UserForRegisterDto UserForRegisterDto { get; set; }
+    public RegisterDto RegisterDto { get; set; }
     public string IpAddress { get; set; }
 
     public RegisterCommand()
     {
-        UserForRegisterDto = null!;
+        RegisterDto = null!;
         IpAddress = string.Empty;
     }
 
-    public RegisterCommand(UserForRegisterDto userForRegisterDto, string ipAddress)
+    public RegisterCommand(RegisterDto userForRegisterDto, string ipAddress)
     {
-        UserForRegisterDto = userForRegisterDto;
+        RegisterDto = userForRegisterDto;
         IpAddress = ipAddress;
     }
 
@@ -45,17 +45,19 @@ public class RegisterCommand : IRequest<RegisteredResponse>
 
         public async Task<RegisteredResponse> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
-            await _authBusinessRules.UserEmailShouldBeNotExists(request.UserForRegisterDto.Email);
+            await _authBusinessRules.UserEmailShouldBeNotExists(request.RegisterDto.Email);
 
             HashingHelper.CreatePasswordHash(
-                request.UserForRegisterDto.Password,
+                request.RegisterDto.Password,
                 passwordHash: out byte[] passwordHash,
                 passwordSalt: out byte[] passwordSalt
             );
             User newUser =
                 new()
                 {
-                    Email = request.UserForRegisterDto.Email,
+                    FirstName = request.RegisterDto.FirstName,
+                    LastName = request.RegisterDto.LastName,
+                    Email = request.RegisterDto.Email,
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt,
                 };
