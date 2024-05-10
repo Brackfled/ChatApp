@@ -59,7 +59,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddCors(opt =>
     opt.AddDefaultPolicy(p =>
     {
-        p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+        p.WithOrigins("https://www.localhost:4200", "http://www.localhost:4200").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
     })
 );
 builder.Services.AddSwaggerGen(opt =>
