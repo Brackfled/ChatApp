@@ -1,4 +1,5 @@
-﻿using Application.Services.ImageService;
+﻿using Application.Services.Hubs;
+using Application.Services.ImageService;
 using Infrastructure.Adapters.ImageService;
 using Microsoft.Extensions.DependencyInjection;
 

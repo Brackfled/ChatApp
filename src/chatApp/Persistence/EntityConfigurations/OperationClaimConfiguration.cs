@@ -6,6 +6,8 @@ using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using NArchitecture.Core.Security.Constants;
+using Application.Features.Chats.Constants;
+using Application.Features.Groups.Constants;
 
 namespace Persistence.EntityConfigurations;
 
@@ -97,6 +99,34 @@ public class OperationClaimConfiguration : IEntityTypeConfiguration<OperationCla
         );
         #endregion
 
+        
+        #region Chats
+        featureOperationClaims.AddRange(
+            [
+                new() { Id = ++lastId, Name = ChatsOperationClaims.Admin },
+                new() { Id = ++lastId, Name = ChatsOperationClaims.Read },
+                new() { Id = ++lastId, Name = ChatsOperationClaims.Write },
+                new() { Id = ++lastId, Name = ChatsOperationClaims.Create },
+                new() { Id = ++lastId, Name = ChatsOperationClaims.Update },
+                new() { Id = ++lastId, Name = ChatsOperationClaims.Delete },
+            ]
+        );
+        #endregion
+        
+        
+        #region Groups
+        featureOperationClaims.AddRange(
+            [
+                new() { Id = ++lastId, Name = GroupsOperationClaims.Admin },
+                new() { Id = ++lastId, Name = GroupsOperationClaims.Read },
+                new() { Id = ++lastId, Name = GroupsOperationClaims.Write },
+                new() { Id = ++lastId, Name = GroupsOperationClaims.Create },
+                new() { Id = ++lastId, Name = GroupsOperationClaims.Update },
+                new() { Id = ++lastId, Name = GroupsOperationClaims.Delete },
+            ]
+        );
+        #endregion
+        
         return featureOperationClaims;
     }
 #pragma warning restore S1854 // Unused assignments should be removed

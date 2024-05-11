@@ -1,0 +1,10 @@
+using NArchitecture.Core.Application.Responses;
+
+namespace Application.Features.Groups.Commands.Update;
+
+public class UpdatedGroupResponse : IResponse
+{
+    public Guid Id { get; set; }
+    public Guid ChatId { get; set; }
+    public string GroupName { get; set; }
+}

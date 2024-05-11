@@ -1,4 +1,5 @@
 using Application;
+using Application.SignalR.Hubs;
 using Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -32,6 +33,7 @@ builder.Services.AddApplicationServices(
 builder.Services.AddPersistenceServices(builder.Configuration);
 builder.Services.AddInfrastructureServices();
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddSignalR();
 
 const string tokenOptionsConfigurationSection = "TokenOptions";
 TokenOptions tokenOptions =
@@ -56,12 +58,6 @@ builder
 builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddCors(opt =>
-    opt.AddDefaultPolicy(p =>
-    {
-        p.WithOrigins("https://www.localhost:4200", "http://www.localhost:4200").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
-    })
-);
 builder.Services.AddSwaggerGen(opt =>
 {
     opt.AddSecurityDefinition(
@@ -103,12 +99,14 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+
 const string webApiConfigurationSection = "WebAPIConfiguration";
 WebApiConfiguration webApiConfiguration =
     app.Configuration.GetSection(webApiConfigurationSection).Get<WebApiConfiguration>()
     ?? throw new InvalidOperationException($"\"{webApiConfigurationSection}\" section cannot found in configuration.");
-app.UseCors(opt => opt.WithOrigins(webApiConfiguration.AllowedOrigins).AllowAnyHeader().AllowAnyMethod().AllowCredentials());
+app.UseCors(opt => opt.WithOrigins("https://localhost:4200", "http://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials());
 
 app.UseResponseLocalization();
+app.MapHub<ChatHub>("/ChatHub");
 
 app.Run();

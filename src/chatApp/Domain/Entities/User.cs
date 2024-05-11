@@ -4,6 +4,7 @@ public class User : NArchitecture.Core.Security.Entities.User<Guid>
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }
+    public string? ConnectionId { get; set; }
 
     public User()
     {

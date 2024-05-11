@@ -22,6 +22,50 @@ namespace Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Domain.Entities.Chat", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("Id");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreatedDate");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DeletedDate");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Description");
+
+                    b.Property<string>("Messages")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Messages");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Name");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("UpdatedDate");
+
+                    b.Property<string>("Users")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Users");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Chats", (string)null);
+                });
+
             modelBuilder.Entity("Domain.Entities.EmailAuthenticator", b =>
                 {
                     b.Property<Guid>("Id")
@@ -58,6 +102,41 @@ namespace Persistence.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("EmailAuthenticators", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entities.Group", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("Id");
+
+                    b.Property<Guid>("ChatId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("ChatId");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreatedDate");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DeletedDate");
+
+                    b.Property<string>("GroupName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("GroupName");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("UpdatedDate");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChatId");
+
+                    b.ToTable("Groups", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.OperationClaim", b =>
@@ -228,6 +307,78 @@ namespace Persistence.Migrations
                             Id = 23,
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Users.Delete"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Chats.Admin"
+                        },
+                        new
+                        {
+                            Id = 25,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Chats.Read"
+                        },
+                        new
+                        {
+                            Id = 26,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Chats.Write"
+                        },
+                        new
+                        {
+                            Id = 27,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Chats.Create"
+                        },
+                        new
+                        {
+                            Id = 28,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Chats.Update"
+                        },
+                        new
+                        {
+                            Id = 29,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Chats.Delete"
+                        },
+                        new
+                        {
+                            Id = 30,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Groups.Admin"
+                        },
+                        new
+                        {
+                            Id = 31,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Groups.Read"
+                        },
+                        new
+                        {
+                            Id = 32,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Groups.Write"
+                        },
+                        new
+                        {
+                            Id = 33,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Groups.Create"
+                        },
+                        new
+                        {
+                            Id = 34,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Groups.Update"
+                        },
+                        new
+                        {
+                            Id = 35,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Groups.Delete"
                         });
                 });
 
@@ -341,6 +492,10 @@ namespace Persistence.Migrations
                         .HasColumnType("int")
                         .HasColumnName("AuthenticatorType");
 
+                    b.Property<string>("ConnectionId")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ConnectionId");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2")
                         .HasColumnName("CreatedDate");
@@ -385,14 +540,14 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("4d303260-51fa-4781-8829-246602742b85"),
+                            Id = new Guid("a71c601e-58fa-4c91-9f03-cbb61983eb5e"),
                             AuthenticatorType = 0,
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "narch@kodlama.io",
                             FirstName = "",
                             LastName = "",
-                            PasswordHash = new byte[] { 109, 152, 165, 22, 223, 162, 107, 109, 188, 169, 126, 126, 99, 250, 85, 225, 81, 2, 132, 234, 146, 55, 117, 54, 138, 81, 183, 191, 195, 18, 242, 44, 204, 57, 55, 237, 178, 27, 6, 62, 201, 216, 113, 175, 31, 225, 122, 238, 206, 9, 27, 139, 76, 25, 136, 190, 135, 52, 192, 24, 80, 92, 126, 97 },
-                            PasswordSalt = new byte[] { 131, 130, 204, 247, 125, 197, 81, 69, 159, 253, 24, 226, 221, 168, 195, 22, 204, 42, 100, 115, 228, 61, 74, 32, 80, 58, 254, 68, 214, 94, 92, 28, 16, 71, 168, 219, 176, 40, 1, 211, 145, 15, 128, 240, 109, 55, 4, 13, 244, 228, 47, 142, 50, 83, 155, 165, 90, 202, 227, 242, 173, 107, 239, 247, 136, 248, 239, 172, 152, 241, 154, 147, 36, 0, 138, 154, 101, 182, 229, 136, 116, 8, 31, 102, 48, 219, 15, 94, 231, 242, 34, 10, 102, 30, 122, 88, 217, 18, 35, 146, 107, 116, 38, 208, 66, 225, 243, 109, 240, 72, 215, 10, 0, 201, 177, 198, 108, 92, 4, 159, 164, 11, 223, 79, 214, 165, 177, 220 }
+                            PasswordHash = new byte[] { 129, 242, 85, 115, 142, 93, 77, 178, 65, 25, 160, 121, 136, 191, 177, 130, 175, 167, 40, 182, 39, 44, 145, 0, 71, 92, 244, 122, 34, 197, 30, 215, 148, 12, 64, 85, 5, 20, 186, 247, 188, 164, 11, 115, 10, 245, 212, 233, 57, 97, 0, 93, 13, 156, 61, 165, 115, 13, 201, 232, 79, 242, 81, 228 },
+                            PasswordSalt = new byte[] { 48, 20, 56, 78, 92, 203, 39, 253, 222, 145, 157, 63, 25, 6, 206, 27, 201, 145, 163, 75, 248, 42, 159, 194, 76, 239, 49, 214, 129, 36, 149, 122, 246, 6, 122, 44, 211, 187, 70, 16, 172, 187, 30, 111, 67, 26, 201, 211, 96, 199, 125, 48, 39, 73, 119, 85, 200, 218, 183, 66, 33, 15, 171, 202, 197, 230, 137, 69, 241, 122, 37, 33, 52, 245, 173, 61, 247, 46, 63, 158, 101, 101, 215, 253, 254, 112, 177, 248, 158, 20, 141, 31, 126, 152, 205, 56, 224, 75, 23, 82, 241, 111, 140, 29, 233, 5, 227, 40, 93, 207, 55, 21, 123, 102, 152, 96, 63, 172, 140, 239, 106, 111, 188, 198, 96, 142, 252, 163 }
                         });
                 });
 
@@ -434,10 +589,10 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("38a72e5d-e575-43ae-b59e-45e3b8fd25aa"),
+                            Id = new Guid("6e2f6555-88a7-46ca-8c64-0a00fc826ae6"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             OperationClaimId = 1,
-                            UserId = new Guid("4d303260-51fa-4781-8829-246602742b85")
+                            UserId = new Guid("a71c601e-58fa-4c91-9f03-cbb61983eb5e")
                         });
                 });
 
@@ -450,6 +605,17 @@ namespace Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Group", b =>
+                {
+                    b.HasOne("Domain.Entities.Chat", "Chat")
+                        .WithMany("Groups")
+                        .HasForeignKey("ChatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Chat");
                 });
 
             modelBuilder.Entity("Domain.Entities.OtpAuthenticator", b =>
@@ -491,6 +657,11 @@ namespace Persistence.Migrations
                     b.Navigation("OperationClaim");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Chat", b =>
+                {
+                    b.Navigation("Groups");
                 });
 
             modelBuilder.Entity("Domain.Entities.User", b =>

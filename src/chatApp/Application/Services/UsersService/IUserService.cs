@@ -26,7 +26,10 @@ public interface IUserService
         CancellationToken cancellationToken = default
     );
 
+    //Task<List<User>> GetListActiveUserAsync();
+
     Task<User> AddAsync(User user);
     Task<User> UpdateAsync(User user);
+    Task<User> UpdateConnectionIdAsync(Guid userId, string? connectionId = null);
     Task<User> DeleteAsync(User user, bool permanent = false);
 }
