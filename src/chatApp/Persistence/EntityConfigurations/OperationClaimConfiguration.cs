@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using NArchitecture.Core.Security.Constants;
 using Application.Features.Chats.Constants;
 using Application.Features.Groups.Constants;
+using Application.Features.ChatUsers.Constants;
 
 namespace Persistence.EntityConfigurations;
 
@@ -123,6 +124,20 @@ public class OperationClaimConfiguration : IEntityTypeConfiguration<OperationCla
                 new() { Id = ++lastId, Name = GroupsOperationClaims.Create },
                 new() { Id = ++lastId, Name = GroupsOperationClaims.Update },
                 new() { Id = ++lastId, Name = GroupsOperationClaims.Delete },
+            ]
+        );
+        #endregion
+        
+        
+        #region ChatUsers
+        featureOperationClaims.AddRange(
+            [
+                new() { Id = ++lastId, Name = ChatUsersOperationClaims.Admin },
+                new() { Id = ++lastId, Name = ChatUsersOperationClaims.Read },
+                new() { Id = ++lastId, Name = ChatUsersOperationClaims.Write },
+                new() { Id = ++lastId, Name = ChatUsersOperationClaims.Create },
+                new() { Id = ++lastId, Name = ChatUsersOperationClaims.Update },
+                new() { Id = ++lastId, Name = ChatUsersOperationClaims.Delete },
             ]
         );
         #endregion

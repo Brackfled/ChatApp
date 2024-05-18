@@ -39,4 +39,5 @@ public class ChatBusinessRules : BaseBusinessRules
         );
         await ChatShouldExistWhenSelected(chat);
     }
+
 }

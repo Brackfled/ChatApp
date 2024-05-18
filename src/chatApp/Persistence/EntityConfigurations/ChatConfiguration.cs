@@ -19,18 +19,13 @@ public class ChatConfiguration : IEntityTypeConfiguration<Chat>
         builder.Property(c => c.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(c => c.DeletedDate).HasColumnName("DeletedDate");
 
-        builder.Property(c => c.Users).HasColumnName("Users")
-            .HasConversion(
-                c => JsonConvert.SerializeObject(c),
-                c => JsonConvert.DeserializeObject<List<User>>(c) ?? new List<User>()
-            );
-
         builder.Property(c => c.Messages).HasColumnName("Messages")
             .HasConversion(
                 c => JsonConvert.SerializeObject(c),
                 c => JsonConvert.DeserializeObject<List<Message>>(c) ?? new List<Message>()
             );
 
+        builder.HasMany(c => c.ChatUsers);
         builder.HasMany(c => c.Groups);
 
         builder.HasQueryFilter(c => !c.DeletedDate.HasValue);

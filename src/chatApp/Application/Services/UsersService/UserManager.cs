@@ -81,23 +81,14 @@ public class UserManager : IUserService
 
     public async Task<User> UpdateConnectionIdAsync(Guid userId, string? connectionId = null)
     {
-        await _userBusinessRules.UserIdShouldBeExistsWhenSelected(userId);
 
         User? user = await _userRepository.GetAsync(u => u.Id == userId);
 
-        User updateUser = new()
-        {
-            Id = user.Id,
-            FirstName = user.FirstName,
-            LastName = user.LastName,
-            Email = user.Email,
-            AuthenticatorType = user.AuthenticatorType,
-            PasswordHash = user.PasswordHash,
-            PasswordSalt = user.PasswordSalt,
-            ConnectionId = connectionId            
-        };
+        await _userBusinessRules.UserShouldBeExistsWhenSelected(user);
 
-        User updatedUser = await _userRepository.UpdateAsync(updateUser);
+        user.ConnectionId = connectionId;
+
+        User updatedUser = await _userRepository.UpdateAsync(user);
         return updatedUser;
     }
 }

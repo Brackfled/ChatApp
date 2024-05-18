@@ -56,6 +56,7 @@ public class ChatManager : IChatService
 
     public async Task<Chat> AddAsync(Chat chat)
     {
+
         Chat addedChat = await _chatRepository.AddAsync(chat);
 
         return addedChat;

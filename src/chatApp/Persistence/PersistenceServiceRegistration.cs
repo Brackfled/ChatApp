@@ -24,6 +24,7 @@ public static class PersistenceServiceRegistration
 
         services.AddScoped<IChatRepository, ChatRepository>();
         services.AddScoped<IGroupRepository, GroupRepository>();
+        services.AddScoped<IChatUserRepository, ChatUserRepository>();
         return services;
     }
 }

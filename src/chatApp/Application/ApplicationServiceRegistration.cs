@@ -22,6 +22,7 @@ using NArchitecture.Core.Security.DependencyInjection;
 using Application.Services.Chats;
 using Application.Services.Groups;
 using Application.Services.Hubs;
+using Application.Services.ChatUsers;
 
 namespace Application;
 
@@ -65,6 +66,7 @@ public static class ApplicationServiceRegistration
         services.AddScoped<IChatService, ChatManager>();
         services.AddScoped<IGroupService, GroupManager>();
         services.AddScoped<IChatHubService, ChatHubManager>();
+        services.AddScoped<IChatUserService, ChatUserManager>();
         return services;
     }
 

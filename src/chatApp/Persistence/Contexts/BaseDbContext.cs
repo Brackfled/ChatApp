@@ -16,6 +16,7 @@ public class BaseDbContext : DbContext
     public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
     public DbSet<Chat> Chats { get; set; }
     public DbSet<Group> Groups { get; set; }
+    public DbSet<ChatUser> ChatUsers { get; set; }
 
     public BaseDbContext(DbContextOptions dbContextOptions, IConfiguration configuration)
         : base(dbContextOptions)
