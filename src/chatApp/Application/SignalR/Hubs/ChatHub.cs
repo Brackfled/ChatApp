@@ -1,5 +1,6 @@
 ﻿using Application.Services.Chats;
 using Application.Services.ChatUsers;
+using Application.Services.Groups;
 using Application.Services.UsersService;
 using Domain.Dtos;
 using Domain.Entities;
@@ -18,12 +19,14 @@ public class ChatHub: Hub
     private readonly IUserService _userService;
     private readonly IChatService _chatService;
     private readonly IChatUserService _chatUserService;
+    private readonly IGroupService _groupService;
 
-    public ChatHub(IUserService userService, IChatService chatService, IChatUserService chatUserService)
+    public ChatHub(IUserService userService, IChatService chatService, IChatUserService chatUserService, IGroupService groupService)
     {
         _userService = userService;
         _chatService = chatService;
         _chatUserService = chatUserService;
+        _groupService = groupService;
     }
 
     public async Task GetListActiveUsersAsync()
@@ -40,8 +43,37 @@ public class ChatHub: Hub
 
     }
 
-    public async Task CreateChat(IList<User> users)
+    public async Task CreateGroupAsync(string groupName, Guid[] userIds)
     {
+        Chat chat = await CreateChat(userIds);
+
+        Group group = new()
+        {
+             Id = Guid.NewGuid(),
+             GroupName = groupName,
+             ChatId = chat.Id,
+        };
+
+        await _groupService.AddAsync(group);
+    }
+
+    public async Task GetChatAsync(Guid chatId)
+    {
+        Chat chat = await _chatService.GetAsync(c => c.Id.Equals(chatId));
+
+        await Clients.Caller.SendAsync("chatLastMessage", chat.Messages);
+    }
+
+    public async Task<Chat> CreateChat(Guid[] userIds)
+    {
+        IList<User> users = new List<User>();
+
+        foreach(Guid userId in userIds)
+        {
+            User? user = await _userService.GetAsync(u => u.Id.Equals(userId));
+            users.Add(user);
+        }
+
         Chat chat = new()
         {
             Id = Guid.NewGuid(),
@@ -62,7 +94,8 @@ public class ChatHub: Hub
             };
             await _chatUserService.AddAsync(chatUser);
 
-        }      
+        }     
+        return chat;
     }
 
     public async Task SendMessage(Guid chatId, Message message)
@@ -78,7 +111,7 @@ public class ChatHub: Hub
             }
         }
 
-        await Clients.Clients((IReadOnlyList<string>)connectionIds).SendAsync("receivedMessage", message);
+        await Clients.Clients((IReadOnlyList<string>)connectionIds).SendAsync("receivedMessage", message,chatId);
 
         Chat? chat = await _chatService.GetAsync(c => c.Id.Equals(chatId));
 
